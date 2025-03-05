@@ -10,12 +10,20 @@
 - Docker*
 - Localstack Cli*
 
-*not essential, but recommended
+*Not essential, but recommended.
+
+To use LocalStack on your local machine, add a profile in the aws cli settings: `.aws/credentials` and `.aws/config`
+
+```shell
 
 ### Commands
 
 ```shell
 localstack start -d
+```
+
+```shell
+localstack stop
 ```
 
 ```shell
@@ -35,9 +43,9 @@ terraform -chdir=infra plan
 ```
 
 ```shell
-terraform -chdir=infra apply
+terraform -chdir=infra apply -auto-approve
 ```
 
 ```shell
-terraform -chdir=infra destroy
+terraform -chdir=infra destroy -auto-approve
 ```
