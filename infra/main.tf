@@ -13,7 +13,17 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = var.profile
+  # If terraform.workspace is "default" (GitHub Actions), profile is set to null (not used)
+  dynamic "default_tags" {
+    for_each = terraform.workspace == "default" ? [] : [1]
+    content {
+      tags = {
+        Environment = "local"
+      }
+    }
+  }
+  # If terraform.workspace is not "default" (local), uses the profile from var.profile (lstk)
+  profile = terraform.workspace == "default" ? null : var.profile
 }
 
 resource "aws_iam_role" "lambda_role" {
