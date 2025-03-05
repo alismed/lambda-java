@@ -13,7 +13,17 @@ terraform {
 
 provider "aws" {
   region  = var.region
-  profile = var.profile
+  # If terraform.workspace is "default" (GitHub Actions), profile is set to null (not used)
+  dynamic "default_tags" {
+    for_each = terraform.workspace == "default" ? [] : [1]
+    content {
+      tags = {
+        Environment = "local"
+      }
+    }
+  }
+  # If terraform.workspace is not "default" (local), uses the profile from var.profile (lstk)
+  profile = terraform.workspace == "default" ? null : var.profile
 }
 
 resource "aws_iam_role" "lambda_role" {
@@ -35,15 +45,15 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 data "archive_file" "zip_the_python_code" {
   type        = "zip"
-  source_dir  = "${path.root}/../app/src/"
-  output_path = "${path.root}/../app/target/app.zip"
+  source_dir  = "../app/src/"
+  output_path = "../app/target/app.zip"
 }
 
-#resource "aws_lambda_function" "get_time" {
-#  filename      = "${path.root}/app/target/app.zip"
-#  function_name = "GetTime"
-#  role          = aws_iam_role.lambda_role.arn
-#  handler       = "index.lambda_handler"
-#  runtime       = "python3.12"
-#  depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-#}
+resource "aws_lambda_function" "get_time" {
+  filename      = "../app/target/app.zip"
+  function_name = "GetTime"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "index.lambda_handler"
+  runtime       = "python3.12"
+  depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+}
