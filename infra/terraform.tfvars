@@ -1,3 +1,4 @@
 region        = "us-east-1"
-profile       = "default"      # 'lstk' is the localstack profile
-destroy_infra = false          # to be used in ci/cd pipeline
+destroy_infra = false                # to be used in ci/cd pipeline
+profile       = "github-actions"     # 'lstk' is the localstack profile
+                                     # 'github-actions' is the github actions profile
