@@ -1,3 +1,3 @@
 region        = "us-east-1"
-profile       = "default"
-destroy_infra = false
+profile       = "lstk"      # 'lstk' is the localstack profile
+destroy_infra = false       # to be used in ci/cd pipeline

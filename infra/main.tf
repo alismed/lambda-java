@@ -35,15 +35,15 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 data "archive_file" "zip_the_python_code" {
   type        = "zip"
-  source_dir  = "${path.root}/../app/src/"
-  output_path = "${path.root}/../app/target/app.zip"
+  source_dir  = "../app/src/"
+  output_path = "../app/target/app.zip"
 }
 
-#resource "aws_lambda_function" "get_time" {
-#  filename      = "${path.root}/app/target/app.zip"
-#  function_name = "GetTime"
-#  role          = aws_iam_role.lambda_role.arn
-#  handler       = "index.lambda_handler"
-#  runtime       = "python3.12"
-#  depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
-#}
+resource "aws_lambda_function" "get_time" {
+  filename      = "../app/target/app.zip"
+  function_name = "GetTime"
+  role          = aws_iam_role.lambda_role.arn
+  handler       = "index.lambda_handler"
+  runtime       = "python3.12"
+  depends_on    = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+}
