@@ -1,6 +1,6 @@
 ## AWS Lambda with Java and deploy with Terraform and Github Actions
 
-
+This project is a simple example of how to create an AWS Lambda function using Java and deploy it using Terraform and Github Actions.
 
 ### Requirements
 - AWS Cli
@@ -9,12 +9,15 @@
 - Maven
 - Docker*
 - Localstack Cli*
+- S3 Bucket pre-built in AWS
 
 *Not essential, but recommended.
 
+### Localstack
 To use LocalStack on your local machine, add a profile in the aws cli settings: `.aws/credentials` and `.aws/config`
 
-```shell
+### Terraform State
+The S3 bucket pre-built is used to store the terraform state file. The bucket name is defined in the `backend.tf` file.
 
 ### Commands
 
@@ -24,10 +27,6 @@ localstack start -d
 
 ```shell
 localstack stop
-```
-
-```shell
-
 ```
 
 ```shell
